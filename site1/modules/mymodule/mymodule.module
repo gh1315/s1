@@ -1,0 +1,424 @@
+
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+ <style type="text/css">
+   .test {
+    color: red;
+    font-size: 100%; }
+    .cite { /* Абзац с классом cite */
+       position: fixed;
+    color: navy; /* Цвет текста */
+    position: absolute; /* Абсолютное позиционирование */
+   /* bottom: 15px; /* Положение от нижнего края */
+    right: 15px; /* Положение от правого края */
+    line-height: 1px;
+    z-index: 1;
+   } 
+       </style>
+
+       
+<?php
+/**
+* implements hook_menu() //комментарий, что используем hook_menu
+*/
+
+  $js ="";
+  $curs = array();
+  $curs = parce($curs);
+  
+  for ($i=0;$i<count($curs);$i++)
+  {
+    $curs1[$i] = $curs[$i]['Code'];
+     $curs2[$i] = $curs[$i]['Value'];
+      $curs3[$i] = $curs[$i]['Nominal'];
+  }
+
+ 
+
+function mymodule_menu(){ //вместо hook, пишем название своего модуля - это и будет название функции
+    $items = array(); //данный хук содержит в себе массив
+         
+        $items['my-page'] = array( //объявили путь нашей странице и загружаем данные в массив
+         
+            'title' => 'Курсы валют', //хук содержит в себе заголовок
+	   
+            'page callback' => 'my_first_page', // объявили функцию обратного вызова
+            'access callback' => TRUE // разрешили всем пользователям просматривать данную страницу
+             
+        );
+
+$items['service.json'] = array( 
+         
+             
+	   
+            'page callback' => 'json_page', 
+            'access arguments' => array('access content') 
+             
+        );
+
+     
+    return $items; // вернули переменную, которая содержит в себе массив с данными
+}
+ 
+/**
+*function my_first_page //комментарий, что вызываем здесь функцию обратного вызова
+*/
+
+function mymodule_theme() {
+  return array(
+    'custom_template' => array( // название хука темизации
+      'variables' => array( // переменные которые будут доступны в шаблоне
+        //'body' => NULL,
+      //  'title' => NULL,
+     'header' => array(   
+        'Code' =>  NULL,
+      'Value' => NULL,
+      'Nominal' => NULL,
+      ),
+         'curs' => array( // переменные которые будут доступны в шаблоне
+        //'body' => NULL,
+      //  'title' => NULL,
+        
+        'Code' =>  NULL,
+      'Value' => NULL,
+      'Nominal' => NULL,
+      
+
+      ),
+
+     
+        
+
+      ),
+      
+      // имя шаблона, в данном случае custom_template.tpl.php в корне модуля
+     // 'template' => 'custom_template',
+    ),
+  );
+}
+
+function theme_custom_template($variables) {
+  
+ $output =' <div id="div1"></div>';
+ 
+  $output .='<TABLE id="zxcv" BORDER>';
+  $output .=  '<TR>';
+        $output .='<TH>';
+        $output .= '<center>';
+         $output .= '<span class="test">'.$variables['header']['Code'].'</span>';
+
+         $output .= '</center>';
+         $output .= '</TH>' ;
+        $output .= '<TH>';
+        $output .= '<center>';
+        $output .= '<span class="test">'.$variables['header']['Value'].'</span>';
+        
+        $output .= '</center>';
+        $output .= '</TH>';
+        $output .= '<TH>';
+        $output .= '<center>';
+       $output .=  '<span class="test">'.$variables['header']['Nominal'].'</span>';
+       $output .= '</center>';
+        $output .= '</TH>';
+          $output .= '</TR>';
+           
+           $o = 0;
+           $i=count($variables['curs']);
+
+          for($o=0; $o<$i; $o++)
+          {
+            $output .=  '<TR>';
+        $output .='<TD>';
+        $output .= '<center>';
+         $output .= $variables['curs'][$o]['Code'];
+         $output .= '</center>';
+         $output .= '</TD>' ;
+        $output .= '<TD>';
+        $output .= '<center>';
+        $output .= $variables['curs'][$o]['Value'];
+        $output .= '</center>';
+        $output .= '</TD>';
+        $output .= '<TD>';
+        $output .= '<center>';
+       $output .=  $variables['curs'][$o]['Nominal'];
+       $output .= '</center>';
+        $output .= '</TD>';
+          $output .= '</TR>';
+          // $output .= $variables['curs'][2]['Code'];  
+         }
+           // $output .= $i;
+ // $output .=    $variables['title'] . ' - ' . $variables['body'];
+         $output .='</TABLE>' ;
+
+          $output .= "Введите размер таблицы&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            $output .= '<input type="text" size="40" id="text1" value="'.$i.'"/>';
+         
+          $output .=  '<input type="button" value="Вывод" onclick="test()">';
+         
+      
+            $output .= '';
+             $output .= '';
+              $output .= '';
+               $output .= '';
+                $output .= '';
+                 $output .= '';
+                  $output .= '';
+                   $output .= '';
+                    $output .= '';
+
+  
+
+
+
+
+  return $output;
+}
+
+
+
+function my_first_page() 
+{
+
+//$j = json_encode($curs);
+    $curs = array();
+$curs = parce($curs);
+//global $curs;
+
+//$curs1 = $curs;
+//json_page($j);
+//$st = multi_implode("&nbsp;&nbsp;&nbsp;&nbsp;", $curs);
+//$a="<pre>";
+//$b="</pre>";
+
+//$c=strlen($st);
+//$c=$c+5;
+//$st=str_pad($st, $c, $b);
+//$c=$c+5;
+
+//$st=str_pad($st, $c, $a, STR_PAD_LEFT);
+
+$header = array( 
+         
+            
+      'Code' =>  "&nbsp;&nbsp;&nbsp;Code",
+      'Value' => 'Value',
+      'Nominal' => "&nbsp;Nominal",
+          //  'N' => "<br>"
+             
+       );
+
+
+
+
+
+// $header = array(t('ID'), t('Number'), t('Teaser'), t('Text'), t('Actions'));
+  //$rows = array();
+ // $rows[] = array(1, 2, 'Teaser text', 'Full text', 'Link for action');
+  //return theme('table', array('header' => $header, 'rows' => $curs));
+  //return calculator_page_form();
+ // print_r (theme('custom_template', array('body' => 'Some body', 'title' => 'Some title')));
+ //echo $_GET['cur_value'];
+  
+return theme('custom_template',  array('header' => $header, 'curs' => $curs));
+//return theme('custom_template', $header, $curs );
+  //return db_query('INSERT INTO {my_table} (code, value, nominal) ', array('code' => "432",'value' => 4, 'nominal' => "324"));
+ // return theme('table', $curs);
+//return $st; 
+
+
+
+}
+
+
+
+
+function parce($curs)
+{
+$url = "http://www.cbr.ru/scripts/XML_daily.asp"; 
+
+if(!$xml=simplexml_load_file($url)) die('error loading XML'); // загружаем полученный документ в дерево XML
+$i=0;
+$curs = array();
+/*$curs[0] = array( 
+         
+            
+	    'Code' =>  "&nbsp;&nbsp;&nbsp;Code",
+	    'Value' => 'Value',
+	    'Nominal' => "&nbsp;Nominal",
+            'N' => "<br>"
+             
+       );*/
+foreach($xml->Valute as $m){ // перебор всех значений
+  
+
+	if(preg_match("/^...\z/",$m->CharCode)==1){
+	$curs[$i] = array( 
+         
+          
+	    'Code' =>  (string)$m->CharCode,
+	    'Value' => (float)str_replace(",", ".", (string)$m->Value),
+	    'Nominal' => (string)$m->Nominal,
+           // 'N' => "<br>"
+             
+       );
+if ((string)$m->Nominal=='1'){
+$curs[$i]['Nominal'] = (string)"";
+} else {
+$curs[$i]['Nominal'] = str_pad($curs[$i]['Nominal'], (strlen($curs[$i]['Nominal'])+1), '*', STR_PAD_LEFT);}
+//if (strlen((string)$curs[$i]['Value'])==6){
+//$curs[$i]['Value'] = str_pad((string)$curs[$i]['Value'], 7, '0');
+//}
+//if (strlen((string)$curs[$i]['Value'])==5){
+//$curs[$i]['Value'] = str_pad((string)$curs[$i]['Value'], 7, '00');
+//}
+$i++;
+}
+
+
+  }
+return $curs;
+}
+
+
+function multi_implode($sep, $array)
+{
+    $_array = array();
+    
+    foreach($array as $val)
+    {
+        if(is_array($val)) $_array[] = multi_implode($sep, $val);
+        else $_array[] = $val;
+    }
+    
+    return implode($sep, $_array);
+}
+
+function json_page()
+{
+//$curs1 = array();
+
+//$curs1 = parce($curs1);
+//drupal_add_http_header('Content-Type', 'application/x-javascript');
+  global $curs;
+  $json = drupal_json_encode($curs);
+//echo /*$_GET['callback'] . */"($curs1);";
+ // echo /*$_GET['callback'] . */"($json);";
+  //echo gettype($json);
+print_r($json);
+  drupal_exit();
+//drupal_json_output($curs);
+}
+
+/*
+$nid = db_insert('my_table')
+  ->fields(array(
+    
+    'code' => 'Example',
+    'value' => 1,
+    'nominal' => 'fdsa',
+  ))
+  ->execute();
+*/
+
+//$query = db_query('INSERT INTO {my_table} (code, value, nominal) VALUES  ("%s", %d, "%s")', "432", 4, "324");
+?>
+
+
+       
+
+        <script>
+       // $(function ()
+       // {
+       //     alert('qwe');
+      //  });
+// var cur_value = $('#text1').attr('value');
+
+
+
+ function show()  
+        {  
+            $.ajax({  
+                url: "",  
+                cache: false,  
+                success:  function(data){  
+                  // $("#content").html(html);  
+                 // alert("ОК");
+                  var str1 = $js;
+                   alert(str1);
+              }   
+            });  
+        }  
+      
+        $(document).ready(function(){  
+            show();  
+            
+            
+           // setInterval('show()',1000);  
+        });  
+
+
+        function table(code, value, nominal, cur_value)
+        {
+          
+          var str = "";
+          str = '<TABLE id="zxcv" BORDER> ' + 
+          '<TR>'+
+          '<TH>'+
+          '<center>'+
+          '<span class="test">'+ "CODE" +'</span>'+
+           '</TH>'+
+           '<TH>'+
+          '<center>'+
+          '<span class="test">'+ "VALUE" +'</span>'+
+           '</TH>'+
+           '<TH>'+
+          '<center>'+
+          '<span class="test">'+ "NOMINAL" +'</span>'+
+           '</TH>'+
+           '</TR>';
+          
+          var i;
+          if (cur_value>34) cur_value=34; 
+          for(i=0;i<cur_value;i++){
+            str+='<TR>'+
+            '<TD>'+
+            '<center>' + code[i] + '</center>' +
+            '</TD>'+
+            '<TD>'+
+            '<center>' + value[i] + '</center>' +
+            '</TD>'+
+            '<TD>'+
+            '<center>' + nominal[i] + '</center>' +
+            '</TD>'+
+            '</TR>';
+            
+            
+          }
+          str+='</TABLE>';
+          
+           document.getElementById('div1').innerHTML=str;
+        }
+            
+
+
+           function test(){
+
+           var cur_value = $('#text1').val();
+            alert(cur_value);
+             //$('#text1').attr('value',10);
+              $('#zxcv').empty();
+              var parse = '<?php echo drupal_json_encode($curs1);?>';
+             var code = JSON.parse(parse);
+             var parse = '<?php echo drupal_json_encode($curs2);?>';
+             var value = JSON.parse(parse);
+             var parse = '<?php echo drupal_json_encode($curs3);?>';
+             var nominal = JSON.parse(parse);
+             table(code, value, nominal, cur_value);
+              //alert(newArr[5]);
+                //$('#div1').text(table());
+                //document.getElementById('div1').innerHTML="<div>fdsafdasfda</div>"
+                //table();
+        }
+
+        </script>
+         
+

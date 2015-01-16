@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Installation file for My database module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function my_database_schema() {
+  $schema['c_value'] = array(
+    'description' => '123',
+    'curs' => array(
+      'curs' => array(
+        'description' => '123',
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+      'value' => array(
+        'description' => '123',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      
+      'nominal' => array(
+        'description' => '123',
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+    ),
+    
+  );
+  return $schema;
+}
